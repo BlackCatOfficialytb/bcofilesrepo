@@ -109,10 +109,15 @@ function generateHtml(contents, currentPath) {
     // Add ".." link if not in the root directory
     if (currentPath && currentPath !== '/') {
         const parentPath = currentPath.substring(0, currentPath.lastIndexOf('/'));
+        // Updated list item generation:
         listItems += `
             <li>
-                <span class="file-type dir-color"><DIR></span>
-                <a class="file-name" href="https://${WORKER_DOMAIN}/${parentPath}">..</a>
+                <span class="file-type ${isDir ? 'dir-color' : ''}">
+                    ${isDir ? '&lt;DIR&gt;' : '&lt;FILE&gt;'}
+                </span>
+                <a class="file-name" href="https://${WORKER_DOMAIN}/${urlPath}">
+                    ${item.name}
+                </a>
             </li>
         `;
     }
@@ -190,19 +195,29 @@ function generateHtml(contents, currentPath) {
             padding: 0;
             margin: 0;
         }
+        /* Fix #1: Ensure the list item is a flexible container */
         #file-list li {
             padding: 2px 0;
-            display: flex;
-            white-space: pre; 
+            display: flex; /* Keep this */
+            align-items: baseline; /* Align the text baselines */
+            white-space: nowrap; /* Prevent wrapping of the entire line */
         }
+        
+        /* Fix #2: Guarantee the Type column is wide enough and the text is right-aligned inside it */
         .file-type {
             display: inline-block;
-            width: 8ch; 
+            width: 8ch; /* KEEP this fixed width for alignment */
+            text-align: right; /* Added: Right-align the type text (e.g., <FILE>) */
+            padding-right: 1ch; /* Added: Small gap between Type and Name columns */
             color: #888;
         }
+        
+        /* Fix #3: Allow the Name link to take the remaining space */
         .file-name {
+            flex-grow: 1; /* Added: Let the name link fill the rest of the space */
             color: #0000cc; 
             text-decoration: none;
+            /* ... rest of the styles ... */
         }
         .file-name:hover {
             text-decoration: underline;
