@@ -13,26 +13,21 @@ const GITHUB_API_BASE = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_R
 // MUST match the domain/subdomain you set up a route for in Cloudflare
 const WORKER_DOMAIN = "files.blackcatofficial.qzz.io"; 
 
-// --- NEW WORKER CODE SNIPPET ---
+// --- NEW WORKER CODE SNIPPET (Alternate) ---
 
 export default {
     async fetch(request, env, ctx) {
         const url = new URL(request.url);
         const path = url.pathname.substring(1);
-
-        // List all files/extensions you want to handle as direct downloads
-        const download_extensions = [
-            '.txt', '.pdf', '.zip', '.mp4', '.js', '.jsonc', '.md',
-            'LICENSE', 'README' // Add files without extensions
-        ];
         
-        // Check if the path (or its extension) is in the list of files to download
-        const isFileDownload = download_extensions.some(ext => path.endsWith(ext));
+        // If the path is non-empty and does NOT end in a slash, treat it as a file.
+        // This covers files with and without extensions.
+        const isFile = path.length > 0 && !path.endsWith('/');
 
-        if (isFileDownload) {
+        if (isFile) {
             return handleFileDownload(path);
         } else {
-            // This will handle directory requests and unknown/unhandled paths
+            // If path is empty (root) or ends in a slash (directory)
             return handleDirectoryListing(path);
         }
     },
