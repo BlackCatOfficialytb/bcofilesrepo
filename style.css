@@ -1,0 +1,87 @@
+body {
+    font-family: monospace;
+    background-color: #f0f0f0;
+    margin: 20px;
+}
+
+.browser-container {
+    width: 80%;
+    max-width: 800px;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+/* Address Bar Styling */
+.address-bar {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-bottom: 1px solid #ccc;
+    background-color: #e9e9e9;
+}
+
+.protocol {
+    font-weight: bold;
+    margin-right: 5px;
+    color: #555;
+}
+
+#repo-path {
+    flex-grow: 1;
+    padding: 3px;
+    border: 1px solid #aaa;
+    background-color: #fff;
+    font-family: monospace;
+}
+
+.address-bar button {
+    margin-left: 10px;
+    padding: 3px 10px;
+    cursor: pointer;
+}
+
+/* File List Styling */
+.file-list-area {
+    padding: 10px;
+}
+
+.header-row {
+    font-weight: bold;
+    margin-bottom: 5px;
+    border-bottom: 1px dashed #ccc;
+    padding-bottom: 3px;
+}
+
+#file-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#file-list li {
+    padding: 2px 0;
+    display: flex;
+    white-space: pre; /* To align the columns */
+}
+
+.file-type {
+    display: inline-block;
+    width: 8ch; /* Ensure fixed width for alignment */
+    color: #888;
+}
+
+.file-name {
+    color: #0000cc; /* Blue for links */
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.file-name:hover {
+    text-decoration: underline;
+}
+
+.dir-color {
+    color: #800080; /* Purple for directories */
+}
