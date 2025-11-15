@@ -1,7 +1,7 @@
 // --- CONFIGURATION ---
 // Replace with your GitHub username and repository name
-const GITHUB_OWNER = "your-username"; 
-const GITHUB_REPO = "your-repo-name";
+const GITHUB_OWNER = "BlackCatOfficialytb"; 
+const GITHUB_REPO = "bcofilesrepo";
 
 // The branch to read from (usually 'main' or 'master')
 const GITHUB_BRANCH = "main"; 
