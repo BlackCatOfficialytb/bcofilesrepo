@@ -108,24 +108,19 @@ function generateHtml(contents, currentPath) {
     
     // Add ".." link if not in the root directory
     if (currentPath && currentPath !== '/') {
-        const parentPath = currentPath.substring(0, currentPath.lastIndexOf('/'));
-        // Updated list item generation:
+        const lastSlash = currentPath.lastIndexOf('/');
+        const parentPath = lastSlash > -1 ? currentPath.substring(0, lastSlash) : '';
         listItems += `
             <li>
-                <span class="file-type ${isDir ? 'dir-color' : ''}">
-                    ${isDir ? '&lt;DIR&gt;' : '&lt;FILE&gt;'}
-                </span>
-                <a class="file-name" href="https://${WORKER_DOMAIN}/${urlPath}">
-                    ${item.name}
-                </a>
+                <span class="file-type dir-color">&lt;DIR&gt;</span>
+                <a class="file-name" href="https://${WORKER_DOMAIN}/${parentPath}">..</a>
             </li>
         `;
     }
 
     contents.forEach(item => {
         const isDir = item.type === 'dir';
-        const urlPath = isDir ? item.path : item.path;
-        
+        const urlPath = item.path;
         listItems += `
             <li>
                 <span class="file-type ${isDir ? 'dir-color' : ''}">
@@ -138,7 +133,7 @@ function generateHtml(contents, currentPath) {
         `;
     });
 
-    // The simple, file-browser style HTML/CSS
+    // Updated: Using your revised CSS below!
     return `
 <!DOCTYPE html>
 <html lang="en">
@@ -147,6 +142,7 @@ function generateHtml(contents, currentPath) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Index of /${currentPath}</title>
     <style>
+        /* --- FULLY REVISED CSS FOR ALIGNMENT --- */
         body {
             font-family: monospace;
             background-color: #f0f0f0;
@@ -160,6 +156,7 @@ function generateHtml(contents, currentPath) {
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
             background-color: #fff;
         }
+        /* Address Bar Styling (Keep this largely the same) */
         .address-bar {
             display: flex;
             align-items: center;
@@ -181,43 +178,44 @@ function generateHtml(contents, currentPath) {
             white-space: nowrap;
             overflow: hidden;
         }
+        /* File List Styling */
         .file-list-area {
             padding: 10px;
         }
+        /* Header Fix: Match the structure's spacing */
         .header-row {
             font-weight: bold;
             margin-bottom: 5px;
             border-bottom: 1px dashed #ccc;
             padding-bottom: 3px;
+            /* Use padding to create the visual gap */
+            padding-left: 10ch; 
         }
         #file-list {
             list-style: none;
             padding: 0;
             margin: 0;
         }
-        /* Fix #1: Ensure the list item is a flexible container */
+        /* Item container */
         #file-list li {
             padding: 2px 0;
-            display: flex; /* Keep this */
-            align-items: baseline; /* Align the text baselines */
-            white-space: nowrap; /* Prevent wrapping of the entire line */
+            display: flex; 
+            align-items: baseline;
         }
-        
-        /* Fix #2: Guarantee the Type column is wide enough and the text is right-aligned inside it */
+        /* Type Column: Fixed width and right-aligned for visual consistency */
         .file-type {
             display: inline-block;
-            width: 8ch; /* KEEP this fixed width for alignment */
-            text-align: right; /* Added: Right-align the type text (e.g., <FILE>) */
-            padding-right: 1ch; /* Added: Small gap between Type and Name columns */
+            width: 9ch; /* Increased slightly to 9ch to safely accommodate <FILE> and <DIR> */
+            text-align: right; 
             color: #888;
+            /* This padding creates the consistent space between Type and Name */
+            padding-right: 1ch; 
         }
-        
-        /* Fix #3: Allow the Name link to take the remaining space */
+        /* Name Link: Starts immediately after the type column */
         .file-name {
-            flex-grow: 1; /* Added: Let the name link fill the rest of the space */
+            flex-grow: 1;
             color: #0000cc; 
             text-decoration: none;
-            /* ... rest of the styles ... */
         }
         .file-name:hover {
             text-decoration: underline;
@@ -225,6 +223,7 @@ function generateHtml(contents, currentPath) {
         .dir-color {
             color: #800080; 
         }
+        /* --- END REVISED CSS --- */
     </style>
 </head>
 <body>
