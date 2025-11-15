@@ -11,7 +11,7 @@ const GITHUB_API_BASE = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_R
 
 // The domain where the worker is running (used for generating internal links)
 // MUST match the domain/subdomain you set up a route for in Cloudflare
-const WORKER_DOMAIN = "files.mydomain.com"; 
+const WORKER_DOMAIN = "files.blackcatofficial.qzz.io"; 
 
 // --- HANDLER ---
 export default {
