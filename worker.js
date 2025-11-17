@@ -125,21 +125,6 @@ function generateHtml(contents, currentPath) {
         `;
     });
 
-    contents.forEach(item => {
-        const isDir = item.type === 'dir';
-        const urlPath = item.path;
-        listItems += `
-            <li>
-                <span class="file-type ${isDir ? 'dir-color' : ''}">
-                    ${isDir ? '&lt;DIR&gt;' : '&lt;FILE&gt;'}
-                </span>
-                <a class="file-name" href="https://${WORKER_DOMAIN}/${urlPath}">
-                    ${item.name}
-                </a>
-            </li>
-        `;
-    });
-
     // Updated: Using your revised CSS below!
     return `
 <!DOCTYPE html>
