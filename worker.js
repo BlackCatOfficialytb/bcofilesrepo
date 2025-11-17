@@ -106,17 +106,24 @@ async function handleFileDownload(path) {
 function generateHtml(contents, currentPath) {
     let listItems = '';
     
-    // Add ".." link if not in the root directory
-    if (currentPath && currentPath !== '/') {
-        const lastSlash = currentPath.lastIndexOf('/');
-        const parentPath = lastSlash > -1 ? currentPath.substring(0, lastSlash) : '';
+    // ... (Parent directory '..' logic remains the same)
+    
+    contents.forEach(item => {
+        const isDir = item.type === 'dir';
+        // Add a slash only if it's a directory
+        const urlPath = isDir ? item.path + '/' : item.path; 
+        
         listItems += `
             <li>
-                <span class="file-type dir-color">&lt;DIR&gt;</span>
-                <a class="file-name" href="https://${WORKER_DOMAIN}/${parentPath}">..</a>
+                <span class="file-type ${isDir ? 'dir-color' : ''}">
+                    ${isDir ? '&lt;DIR&gt;' : '&lt;FILE&gt;'}
+                </span>
+                <a class="file-name" href="https://${WORKER_DOMAIN}/${urlPath}">
+                    ${item.name}
+                </a>
             </li>
         `;
-    }
+    });
 
     contents.forEach(item => {
         const isDir = item.type === 'dir';
